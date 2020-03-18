@@ -25,7 +25,7 @@ public class LoginAction implements Action {
             request.getRequestDispatcher(URL_HI_PAGE).forward(request, response);
         }
         else{
-            request.setAttribute(ERROR_LOGIN, true);
+            request.setAttribute(ERROR_LOGIN, "Неверный логин или пароль!");
             request.getRequestDispatcher(URL_AUTHORIZATION_PAGE).forward(request, response);
 
         }

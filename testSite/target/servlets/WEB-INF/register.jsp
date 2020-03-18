@@ -27,6 +27,9 @@
                 <span class="login100-form-title p-b-26">
                 Регистрация
                 </span>
+                <c:if test="${not empty login_error}">
+                    <p class="error">${login_error}</p>
+                </c:if>
                 <span class="login100-form-title p-b-48">
                     <div class="home-icon"></div>
                 </span>

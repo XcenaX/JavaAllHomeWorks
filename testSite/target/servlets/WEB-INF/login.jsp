@@ -28,7 +28,7 @@
                 Добро пожаловать
                 </span>
                 <c:if test="${not empty login_error}">
-                    <p class="error">Неверный логин или пароль!</p>
+                    <p class="error">${login_error}</p>
                 </c:if>
 
                 <span class="login100-form-title p-b-48">

@@ -27,6 +27,9 @@
                 <span class="login100-form-title p-b-26">
                 Регистрация
                 </span>
+                <c:if test="${not empty login_error}">
+                    <p class="error">${login_error}</p>
+                </c:if>
                 <span class="login100-form-title p-b-48">
                     <div class="home-icon"></div>
                 </span>
@@ -36,7 +39,7 @@
                 </div>
                 <div class="wrap-input100 validate-input" data-validate="Введите пароль">
                     <input class="input100" type="password" name="password">
-                    <span class="focus-input100" data-placeholder="Password"></span>
+                    <span class="focus-input100" data-placeholder="Введите пароль"></span>
                 </div>
                 <div class="wrap-input100 validate-input" data-validate="Повторите пароль">
                     <input class="input100" type="password" name="retypePassword">

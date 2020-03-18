@@ -16,6 +16,7 @@ public class UserDao extends AbstractDao<User> {
             "UPDATE public.users set login=?, password=?, first_name=?, last_name=? where id=?";
     private static final String SQL_SELECT_USER_BY_ID = "SELECT * FROM public.users where id=?";
     private static final String SQL_SELECT_USER_BY_LOGIN_PASSWORD = "SELECT * FROM public.users where login=? and password=?";
+    private static final String SQL_SELECT_USER_BY_LOGIN = "SELECT * FROM public.users where login=?";
 
     public User findByLoginAndPassword(String login, String password){
         User user = null;
@@ -23,6 +24,24 @@ public class UserDao extends AbstractDao<User> {
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_USER_BY_LOGIN_PASSWORD)) {
             preparedStatement.setString(1, login);
             preparedStatement.setString(2, password);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    user = setUserParameters(resultSet);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error occurred");
+        } finally {
+            ConnectionPool.getConnectionPool().releaseConnection(connection);
+        }
+        return user;
+    }
+
+    public User findByLogin(String login){
+        User user = null;
+        Connection connection = ConnectionPool.getConnectionPool().getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_USER_BY_LOGIN)) {
+            preparedStatement.setString(1, login);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     user = setUserParameters(resultSet);
