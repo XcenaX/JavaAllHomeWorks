@@ -12,6 +12,12 @@
   margin: auto;
 }
 
+.error{
+  text-align: center;
+  color: red;
+  padding-bottom: 25px;
+}
+
 @font-face {
   font-family: Poppins-Regular;
   src: url('/WEB-INF/fonts/Poppins-Regular.ttf');

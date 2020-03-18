@@ -1,7 +1,9 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page isELIgnored = "false" %>
 <html lang="ru">
 <head>
-    <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <title>Login V2</title>
+    <title>Вход</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         <jsp:directive.include file="styles/bootstrap.min.css"/>
@@ -21,20 +23,24 @@
 <div class="limiter">
     <div class="container-login100">
         <div class="wrap-login100">
-            <form class="login100-form validate-form" method="post" action="\">
+            <form class="login100-form validate-form" method="post" action="/fs/authorization">
                 <span class="login100-form-title p-b-26">
                 Добро пожаловать
                 </span>
+                <c:if test="${not empty login_error}">
+                    <p class="error">Неверный логин или пароль!</p>
+                </c:if>
+
                 <span class="login100-form-title p-b-48">
                     <div class="home-icon"></div>
                 </span>
-                <div class="wrap-input100 validate-input" data-validate="Valid email is: a@b.c">
-                    <input class="input100" type="text" name="email">
-                    <span class="focus-input100" data-placeholder="Email"></span>
+                <div class="wrap-input100 validate-input" >
+                    <input class="input100" type="text" name="login">
+                    <span class="focus-input100" data-placeholder="Логин"></span>
                 </div>
-                <div class="wrap-input100 validate-input" data-validate="Enter password">
-                    <input class="input100" type="password" name="pass">
-                    <span class="focus-input100" data-placeholder="Password"></span>
+                <div class="wrap-input100 validate-input" >
+                    <input class="input100" type="password" name="password">
+                    <span class="focus-input100" data-placeholder="Пароль"></span>
                 </div>
                 <div class="container-login100-form-btn">
                     <div class="wrap-login100-form-btn">
@@ -48,7 +54,7 @@
                     <span class="txt1">
                     Нет аккаунта?
                     </span>
-                    <a class="txt2" href="#">
+                    <a class="txt2" href="/fs/registration">
                         Создайте его
                     </a>
                 </div>

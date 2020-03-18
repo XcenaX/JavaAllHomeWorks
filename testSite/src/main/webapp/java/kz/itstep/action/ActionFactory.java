@@ -13,13 +13,17 @@ public class ActionFactory {
     }
 
     private void init(){
-        PAGES.put("/info", new InfoAction());
-        PAGES.put("/hi", new HiAction());
-        PAGES.put("/login", new LoginAction());
-        PAGES.put("POST/login", new AuthorizeAction());
+        PAGES.put("GET/info", new InfoAction());
+        PAGES.put("GET/hi", new HiAction());
+        PAGES.put("GET/login", new AuthorizationAction());
+        PAGES.put("GET/registration", new RegistrationAction());
+
+        PAGES.put("POST/registration", new RegistrationAction());
+        PAGES.put("POST/authorization", new LoginAction());
+
     }
 
     public Action getAction(HttpServletRequest request, HttpServletResponse response){
-        return PAGES.get(request.getPathInfo());
+        return PAGES.get(request.getMethod() + request.getPathInfo());
     }
 }

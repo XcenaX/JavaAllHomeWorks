@@ -5,9 +5,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static kz.itstep.util.AppConstant.*;
+
 public class HiAction implements Action{
     @Override
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/hi.jsp").forward(request, response);
+        request.getRequestDispatcher(URL_HI_PAGE).forward(request, response);
     }
 }

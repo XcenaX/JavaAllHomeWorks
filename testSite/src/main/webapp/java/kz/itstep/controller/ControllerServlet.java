@@ -19,9 +19,8 @@ public class ControllerServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
-
         Action action = actionFactory.getAction(req, resp);
         if(action != null){
             action.service(req,resp);
@@ -31,17 +30,11 @@ public class ControllerServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        resp.getWriter().print("It's POST request " + this.getServletName());
-    }
-
-    @Override
     public void destroy() {
-        try{
+        try {
             ConnectionPool.dispose();
-        } catch (SQLException e){
-            System.out.println(e.getMessage());
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         super.destroy();
     }
