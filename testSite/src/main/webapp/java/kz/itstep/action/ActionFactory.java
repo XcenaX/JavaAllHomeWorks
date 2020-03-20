@@ -14,9 +14,11 @@ public class ActionFactory {
 
     private void init(){
         PAGES.put("GET/info", new InfoAction());
-        PAGES.put("GET/hi", new HiAction());
+        PAGES.put("GET/cources", new HiAction());
         PAGES.put("GET/login", new AuthorizationAction());
+        PAGES.put("GET/", new AuthorizationAction());
         PAGES.put("GET/registration", new RegistrationAction());
+        PAGES.put("GET/cource", new CourceAction());
 
         PAGES.put("POST/registration", new RegistrationAction());
         PAGES.put("POST/authorization", new LoginAction());

@@ -2,12 +2,15 @@ package kz.itstep.dao;
 import kz.itstep.entity.Role;
 import kz.itstep.entity.Role;
 import kz.itstep.pool.ConnectionPool;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RoleDao extends AbstractDao<Role> {
+    private Logger logger = Logger.getLogger(CourceDao.class);
+
     private static final String SQL_SELECT_ALL = "select * from public.roles";
     private static final String SQL_SELECT_BY_ID = "select * from public.roles where id=";
     private static final String INSERT = "insert into public.roles (name) values(?)";
@@ -44,7 +47,7 @@ public class RoleDao extends AbstractDao<Role> {
                 roles.add(role);
             }
         } catch (SQLException e){
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         } finally {
             ConnectionPool.getConnectionPool().releaseConnection(connection);
         }
@@ -59,7 +62,7 @@ public class RoleDao extends AbstractDao<Role> {
             role.setId(resultSet.getInt("id"));
             return role;
         } catch (SQLException e){
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
             return null;
         } finally {
             ConnectionPool.getConnectionPool().releaseConnection(connection);

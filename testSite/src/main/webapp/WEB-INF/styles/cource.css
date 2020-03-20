@@ -1,0 +1,9 @@
+.cource-img{
+    width:24px;
+    height:24px;
+    background-size: cover;
+}
+
+code span{
+    float:left !important;
+}

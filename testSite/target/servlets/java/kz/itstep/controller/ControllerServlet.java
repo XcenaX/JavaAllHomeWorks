@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import static kz.itstep.util.AppConstant.*;
 
 public class ControllerServlet extends HttpServlet {
     ActionFactory actionFactory;
@@ -25,7 +26,7 @@ public class ControllerServlet extends HttpServlet {
         if(action != null){
             action.service(req,resp);
         } else {
-            req.getRequestDispatcher("index.jsp").forward(req, resp);
+            req.getRequestDispatcher(URL_AUTHORIZATION_PAGE).forward(req, resp);
         }
     }
 

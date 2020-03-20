@@ -2,12 +2,15 @@ package kz.itstep.dao;
 
 import kz.itstep.entity.User;
 import kz.itstep.pool.ConnectionPool;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDao extends AbstractDao<User> {
+    private Logger logger = Logger.getLogger(CourceDao.class);
+
     private static final String SQL_SELECT_USERS_ALL = "SELECT * FROM public.users";
     private static final String SQL_INSERT_USER =
             "insert into public.users (login, password, first_name, last_name, role) values(?, ?, ?, ?, ?)";
@@ -30,7 +33,7 @@ public class UserDao extends AbstractDao<User> {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Error occurred");
+            logger.error(e.getMessage());
         } finally {
             ConnectionPool.getConnectionPool().releaseConnection(connection);
         }
@@ -48,7 +51,7 @@ public class UserDao extends AbstractDao<User> {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Error occurred");
+            logger.error(e.getMessage());
         } finally {
             ConnectionPool.getConnectionPool().releaseConnection(connection);
         }
@@ -64,7 +67,7 @@ public class UserDao extends AbstractDao<User> {
             preparedStatement.execute();
             deleted = true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } finally {
             ConnectionPool.getConnectionPool().releaseConnection(connection);
         }
@@ -83,7 +86,7 @@ public class UserDao extends AbstractDao<User> {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Error occurred");
+            logger.error(e.getMessage());
         } finally {
             ConnectionPool.getConnectionPool().releaseConnection(connection);
         }
@@ -103,7 +106,7 @@ public class UserDao extends AbstractDao<User> {
             preparedStatement.executeUpdate();
             updated = true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } finally {
             ConnectionPool.getConnectionPool().releaseConnection(connection);
         }
@@ -119,7 +122,7 @@ public class UserDao extends AbstractDao<User> {
             preparedStatement.execute();
             deleted = true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } finally {
             ConnectionPool.getConnectionPool().releaseConnection(connection);
         }
@@ -139,7 +142,7 @@ public class UserDao extends AbstractDao<User> {
             preparedStatement.executeUpdate();
             inserted = true;
         } catch (SQLException e) {
-            System.out.println("User wasn't inserted!" + e.getMessage());
+            logger.error(e.getMessage());
         } finally {
             ConnectionPool.getConnectionPool().releaseConnection(connection);
         }
@@ -162,7 +165,7 @@ public class UserDao extends AbstractDao<User> {
                 users.add(user);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } finally {
             ConnectionPool.getConnectionPool().releaseConnection(connection);
         }
@@ -178,7 +181,7 @@ public class UserDao extends AbstractDao<User> {
             user.setFirstName(resultSet.getString("first_name"));
             user.setLastName(resultSet.getString("last_name"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
         return user;

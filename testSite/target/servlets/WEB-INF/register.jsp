@@ -39,7 +39,7 @@
                 </div>
                 <div class="wrap-input100 validate-input" data-validate="Введите пароль">
                     <input class="input100" type="password" name="password">
-                    <span class="focus-input100" data-placeholder="Password"></span>
+                    <span class="focus-input100" data-placeholder="Введите пароль"></span>
                 </div>
                 <div class="wrap-input100 validate-input" data-validate="Повторите пароль">
                     <input class="input100" type="password" name="retypePassword">
