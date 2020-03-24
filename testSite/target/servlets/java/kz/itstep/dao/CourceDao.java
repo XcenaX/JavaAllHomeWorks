@@ -1,14 +1,18 @@
 package kz.itstep.dao;
+import kz.itstep.action.LoginAction;
 import kz.itstep.entity.Cource;
 import kz.itstep.entity.Language;
 import kz.itstep.entity.Cource;
 import kz.itstep.pool.ConnectionPool;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CourceDao extends AbstractDao<Cource> {
+    private Logger logger = Logger.getLogger(CourceDao.class);
+
     private static final String SQL_SELECT_ALL = "select * from public.cources";
     private static final String SQL_SELECT_BY_ID = "select * from public.cources where id=?";
     private static final String INSERT = "insert into public.cources (name) values(?)";
@@ -55,7 +59,7 @@ public class CourceDao extends AbstractDao<Cource> {
                 cources.add(cource);
             }
         } catch (SQLException e){
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         } finally {
             ConnectionPool.getConnectionPool().releaseConnection(connection);
         }
@@ -75,7 +79,7 @@ public class CourceDao extends AbstractDao<Cource> {
             }
             return cource;
         } catch (SQLException e){
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
             return null;
         } finally {
             ConnectionPool.getConnectionPool().releaseConnection(connection);
@@ -96,7 +100,7 @@ public class CourceDao extends AbstractDao<Cource> {
 
             cource.setLanguage(language);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
         return cource;

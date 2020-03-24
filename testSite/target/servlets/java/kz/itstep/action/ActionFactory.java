@@ -19,6 +19,7 @@ public class ActionFactory {
         PAGES.put("GET/", new AuthorizationAction());
         PAGES.put("GET/registration", new RegistrationAction());
         PAGES.put("GET/cource", new CourceAction());
+        PAGES.put("GET/admin", new AdminAction());
 
         PAGES.put("POST/registration", new RegistrationAction());
         PAGES.put("POST/authorization", new LoginAction());

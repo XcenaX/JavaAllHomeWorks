@@ -11,14 +11,32 @@
     <link rel="stylesheet" media="screen" href="https://cdn2.hexlet.io/packs/css/41-4310e18e.chunk.css">
     <link rel="alternate" type="application/rss+xml" title="RSS" href="https://ru.hexlet.io/lessons.rss">
     <link id="avast_os_ext_custom_font" href="chrome-extension://eofcbnmajmjmplflapaojjnihcjkigck/common/ui/fonts/fonts.css" rel="stylesheet" type="text/css">
+
     <style>
         <jsp:directive.include file="styles/cource.css"/>
+        <jsp:directive.include file="styles/dialog.css"/>
+        <jsp:directive.include file="styles/main.css"/>
     </style>
+
 </head>
 <body>
+    <!-- DIALOG BLOCK -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <span class="dialog-header">Вы точно хотите купить курс?</span>
+            <form class="dialog-form" method="POST" action="/buy?id=${cource.id}">
+                <input type="hidden" value="${cource.price}" name="price">
+                <button class="agree" type="submit">Да</button>
+                <button class="close-dialog">Нет</button>
+            </form>
+
+        </div>
+    </div>
+    <!-- DIALOG BLOCK -->
     <!-- HEADER BLOCK -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white hexlet-navbar border-bottom">
-        <a aria-hidden="true" class="navbar-brand mr-4" href="/">
+        <a aria-hidden="true" class="navbar-brand mr-4" >
             Nice Cources Bro
         </a>
         <button aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarResponsive" data-toggle="collapse" type="button">
@@ -36,7 +54,7 @@
                 <li class="nav-item">
 
                     <a class="nav-link hexlet-navbar-link px-3 " href="https://ru.hexlet.io/session/new?from=https%3A%2F%2Fru.hexlet.io%2Fcourses">
-                        <div class="my-2">${currentUser.firstName} ${currentUser.lastName}</div>
+                        <div class="my-2">${currentUser.firstName} ${currentUser.lastName} Баланс: ${currentUser.money}тг</div>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -54,7 +72,15 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8 col-md-7 col-sm-12 text-white">
-                        <span class="badge badge-light mr-1">${cource.price} $</span>
+                        <c:choose>
+                            <c:when test="${cource.price == 0}">
+                                <span class="badge badge-light mr-1">бесплатный</span>
+                            </c:when>
+                            <c:when test="${cource.price != 0}">
+                                <span class="badge badge-light mr-1">${cource.price} тг</span>
+                            </c:when>
+                        </c:choose>
+
                         <span>курс</span>
                         <h1 class="h2 font-weight-normal">
                             ${cource.title}
@@ -70,8 +96,14 @@
 
                     <h2 class="h3 my-4">Подготовительный курс</h2>
 
-                    ${cource.htmlBlock}
-
+                    <c:choose>
+                        <c:when test="${cource.price == 0}">
+                            ${cource.htmlBlock}
+                        </c:when>
+                        <c:when test="${cource.price != 0}">
+                            <span class="not-purchased">Купите курс чтобы посмотреть содержимое!</span>
+                        </c:when>
+                    </c:choose>
                 </div>
 
 
@@ -86,12 +118,27 @@
                                     <div class="mb-3">
                                         <div class="text-center">
                                             продолжительность
-                                            <div class="h3 mt-1">${cource.duration} часов</div>
+                                            <div class="h3 mt-1">${cource.duration} ${cource.getHour(cource.duration)}</div>
                                         </div>
                                         <div class="text-center mt-3">
                                             стоимость
-                                            <div class="h3 mt-1">${cource.price}$</div>
+                                            <c:choose>
+                                                <c:when test="${cource.price == 0}">
+                                                    <div class="h3 mt-1">Бесплатно</div>
+                                                </c:when>
+                                                <c:when test="${cource.price != 0}">
+                                                    <div class="h3 mt-1">${cource.price}тг</div>
+                                                </c:when>
+                                            </c:choose>
                                         </div>
+                                        <c:if test="${cource.price != 0}">
+                                            <div style="margin-top: 20px;" id="start_course_form" class="button_to">
+                                                <button id="myBtn" class="btn btn-success btn-block" >
+                                                    Приобрести
+                                                </button>
+                                            </div>
+                                        </c:if>
+
                                     </div>
                                 </div>
                             </div>
@@ -162,6 +209,29 @@
     </footer>
     <!-- FOOTER BLOCK -->
 
+    <script type="text/javascript">
+        var modal = document.getElementById("myModal");
+        var btn = document.getElementById("myBtn");
+        var span = document.getElementsByClassName("close")[0];
+        var closeBtn = document.getElementsByClassName("close-dialog")[0];
 
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>

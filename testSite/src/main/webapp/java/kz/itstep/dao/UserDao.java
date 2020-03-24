@@ -162,6 +162,8 @@ public class UserDao extends AbstractDao<User> {
                 user.setPassword(resultSet.getString("password"));
                 user.setFirstName(resultSet.getString("first_name"));
                 user.setLastName(resultSet.getString("last_name"));
+                user.setMoney(resultSet.getInt("money"));
+                user.setRole(resultSet.getInt("role"));
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -180,6 +182,8 @@ public class UserDao extends AbstractDao<User> {
             user.setPassword(resultSet.getString("password"));
             user.setFirstName(resultSet.getString("first_name"));
             user.setLastName(resultSet.getString("last_name"));
+            user.setMoney(resultSet.getInt("money"));
+            user.setRole(resultSet.getInt("role"));
         } catch (SQLException e) {
             logger.error(e.getMessage());
         }

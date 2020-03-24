@@ -17,4 +17,5 @@ public final class AppConstant {
     public static final String LANGUAGES = "languages";
     public static final String COURCE_PAGE = "/WEB-INF/cource.jsp";
     public static final String COURCE = "cource";
+    public static final String URL_ADMIN_PAGE = "/WEB-INF/admin.jsp";
 }

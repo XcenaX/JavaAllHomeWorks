@@ -5,15 +5,35 @@ public class User extends Entity {
     private String password;
     private String firstName;
     private String lastName;
+    private int money;
+    private int role;
 
-    public User(String login, String password, String firstName, String lastName){
-        this.lastName = lastName;
-        this.firstName = firstName;
+    public User(String login, String password, String firstName, String lastName, int money, int role) {
         this.login = login;
         this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.money = money;
+        this.role = role;
     }
 
     public User(){}
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
 
     public String getLogin() {
         return login;

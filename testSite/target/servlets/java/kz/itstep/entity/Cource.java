@@ -22,6 +22,15 @@ public class Cource extends Entity {
         this.htmlBlock = htmlBlock;
     }
 
+    public String getHour(int hour){
+        String strHour = Integer.toString(hour);
+        String lastChar = strHour.substring(strHour.length() - 1);
+        hour = Integer.parseInt(lastChar);
+        if(hour == 1)return "час";
+        else if(hour > 1 && hour < 5)return "часа";
+        else return "часов";
+    }
+
     public Cource(){}
 
     public String getHtmlBlock() {

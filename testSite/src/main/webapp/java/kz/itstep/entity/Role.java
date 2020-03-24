@@ -6,6 +6,7 @@ public class Role extends Entity {
     public Role(String name){
         this.name = name;
     }
+    public Role(){}
 
     public String getName() {
         return name;

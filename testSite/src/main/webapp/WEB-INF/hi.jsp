@@ -12,12 +12,13 @@
     <link id="avast_os_ext_custom_font" href="chrome-extension://eofcbnmajmjmplflapaojjnihcjkigck/common/ui/fonts/fonts.css" rel="stylesheet" type="text/css">
     <style>
         <jsp:directive.include file="styles/cource.css"/>
+        <jsp:directive.include file="styles/main.css"/>
     </style>
 </head>
 <body>
 <!-- HEADER BLOCK -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white hexlet-navbar border-bottom">
-    <a aria-hidden="true" class="navbar-brand mr-4" href="/">
+    <a aria-hidden="true" class="navbar-brand mr-4" >
         Nice Cources Bro
     </a>
     <button aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarResponsive" data-toggle="collapse" type="button">
@@ -35,7 +36,7 @@
             <li class="nav-item">
 
                 <a class="nav-link hexlet-navbar-link px-3 " href="https://ru.hexlet.io/session/new?from=https%3A%2F%2Fru.hexlet.io%2Fcourses">
-                    <div class="my-2">${currentUser.id} ${currentUser.lastName}</div>
+                    <div class="my-2">${currentUser.firstName} ${currentUser.lastName} Баланс: ${currentUser.money}тг</div>
                 </a>
             </li>
             <li class="nav-item">
@@ -145,7 +146,7 @@
                                 <div class="d-flex">
                                     <div class="cource-img" style="background-image:url('${cource.language.imgUrl}')"></div>
                                     <div class="ml-auto my-auto">
-                                           ${cource.duration} часов
+                                           ${cource.duration} ${cource.getHour(cource.duration)}
                                     </div>
                                 </div>
                             </div>
@@ -153,7 +154,7 @@
                                 <div class="row flex-wrap-reverse px-3">
                                     <h5 class="col-auto col-sm-10 mr-auto p-0">${cource.title}</h5>
                                     <div>
-                                        <span class="badge badge-light p-0">${cource.price}$</span>
+                                        <span class="badge badge-light p-0">${cource.price}тг</span>
                                     </div>
                                 </div>
                                 <div class="text-muted mb-2">${fn:substring(cource.description, -1, 60)}...</div>

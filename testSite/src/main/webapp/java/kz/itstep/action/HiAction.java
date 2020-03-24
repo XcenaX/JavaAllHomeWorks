@@ -4,9 +4,11 @@ import kz.itstep.dao.CourceDao;
 import kz.itstep.dao.LanguageDao;
 import kz.itstep.entity.Cource;
 import kz.itstep.entity.Language;
+import kz.itstep.entity.User;
 import kz.itstep.sets.CourceSet;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -23,6 +25,8 @@ public class HiAction implements Action{
 
         List<Language> languages = languageDao.findAll();
         List<Cource> cources = courceDao.findAll();
+
+
 
         request.setAttribute(COURCES, cources);
         request.setAttribute(LANGUAGES, languages);

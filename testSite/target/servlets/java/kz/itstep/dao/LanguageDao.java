@@ -3,12 +3,15 @@ import kz.itstep.entity.Language;
 import kz.itstep.entity.Language;
 import kz.itstep.entity.Language;
 import kz.itstep.pool.ConnectionPool;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LanguageDao extends AbstractDao<Language> {
+    private Logger logger = Logger.getLogger(CourceDao.class);
+
     private static final String SQL_SELECT_ALL = "select * from public.languages";
     private static final String SQL_SELECT_BY_ID = "select * from public.languages where id=?";
     private static final String INSERT = "insert into public.languages (name, img_url) values(?, ?)";
@@ -47,7 +50,7 @@ public class LanguageDao extends AbstractDao<Language> {
                 languages.add(language);
             }
         } catch (SQLException e){
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         } finally {
             ConnectionPool.getConnectionPool().releaseConnection(connection);
         }
@@ -67,7 +70,7 @@ public class LanguageDao extends AbstractDao<Language> {
             }
             return language;
         } catch (SQLException e){
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
             return null;
         } finally {
             ConnectionPool.getConnectionPool().releaseConnection(connection);
@@ -81,7 +84,7 @@ public class LanguageDao extends AbstractDao<Language> {
             cource.setName(resultSet.getString("name"));
             cource.setImgUrl(resultSet.getString("img_url"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
         return cource;

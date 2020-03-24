@@ -4,6 +4,38 @@
     background-size: cover;
 }
 
-code span{
-    float:left !important;
+
+.not-purchased{
+    color: red;
+    font-size: 18px;
+    font-weight: 500;
 }
+
+.close-dialog {
+    width: 25%;
+    font-size: 16px;
+    color: white;
+    background-color: red;
+    padding: 5px;
+}
+
+.agree{
+    background-color: green;
+    width: 25%;
+    font-size: 16px;
+    color: white;
+    margin-right: 15px;
+    padding: 5px;
+}
+
+.dialog-header{
+    text-align: center;
+    font-family: auto;
+    font-size: 18px;
+}
+
+.dialog-form{
+    text-align: center;
+    margin-top: 20px;
+}
+
