@@ -17,6 +17,8 @@
     color: white;
     background-color: red;
     padding: 5px;
+    display: inline-block;
+    cursor: pointer;
 }
 
 .agree{
@@ -39,3 +41,22 @@
     margin-top: 20px;
 }
 
+
+@media only screen and (max-width: 700px) {
+    .close-dialog {
+        width: 40%;
+        font-size: 16px;
+        color: white;
+        background-color: red;
+        padding: 5px;
+    }
+
+    .agree{
+        background-color: green;
+        width: 40%;
+        font-size: 16px;
+        color: white;
+        margin-right: 15px;
+        padding: 5px;
+    }
+}

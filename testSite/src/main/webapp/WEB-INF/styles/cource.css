@@ -13,10 +13,12 @@
 
 .close-dialog {
     width: 25%;
-    font-size: 20px;
+    font-size: 16px;
     color: white;
     background-color: red;
     padding: 5px;
+    display: inline-block;
+    cursor: pointer;
 }
 
 .agree{

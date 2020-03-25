@@ -20,7 +20,12 @@ public class ActionFactory {
         PAGES.put("GET/registration", new RegistrationAction());
         PAGES.put("GET/cource", new CourceAction());
         PAGES.put("GET/admin", new AdminAction());
+        PAGES.put("GET/profile", new ProfileAction());
+        PAGES.put("GET/profile/edit", new EditProfileAction());
 
+        PAGES.put("POST/profile/edit", new EditProfileAction());
+        PAGES.put("POST/delete", new DeleteAction());
+        PAGES.put("POST/buy", new BuyAction());
         PAGES.put("POST/registration", new RegistrationAction());
         PAGES.put("POST/authorization", new LoginAction());
 

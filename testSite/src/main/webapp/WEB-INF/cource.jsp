@@ -24,12 +24,18 @@
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <span class="dialog-header">Вы точно хотите купить курс?</span>
-            <form class="dialog-form" method="POST" action="/buy?id=${cource.id}">
-                <input type="hidden" value="${cource.price}" name="price">
-                <button class="agree" type="submit">Да</button>
-                <button class="close-dialog">Нет</button>
-            </form>
+            <c:if test="${cource.price <= currentUser.money}">
+                <span class="dialog-header">Вы точно хотите купить курс?</span>
+                <form class="dialog-form" method="post" action="/fs/buy">
+                    <input type="hidden" value="${cource.id}" name="id">
+                    <button class="agree" type="submit">Да</button>
+                    <div id="close-dialog" class="close-dialog">Нет</div>
+                </form>
+            </c:if>
+            <c:if test="${cource.price > currentUser.money}">
+                <span class="dialog-header">У вас недостаточно средств!</span>
+            </c:if>
+
 
         </div>
     </div>
@@ -53,8 +59,8 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
 
-                    <a class="nav-link hexlet-navbar-link px-3 " href="https://ru.hexlet.io/session/new?from=https%3A%2F%2Fru.hexlet.io%2Fcourses">
-                        <div class="my-2">${currentUser.firstName} ${currentUser.lastName} Баланс: ${currentUser.money}тг</div>
+                    <a class="nav-link hexlet-navbar-link px-3 " href="/fs/profile">
+                        <div class="my-2">${currentUser.firstName} ${currentUser.lastName}</div>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -97,11 +103,14 @@
                     <h2 class="h3 my-4">Подготовительный курс</h2>
 
                     <c:choose>
-                        <c:when test="${cource.price == 0}">
+                        <c:when test="${isPurchased == true}">
                             ${cource.htmlBlock}
                         </c:when>
-                        <c:when test="${cource.price != 0}">
+                        <c:when test="${isPurchased == false && cource.price!=0}">
                             <span class="not-purchased">Купите курс чтобы посмотреть содержимое!</span>
+                        </c:when>
+                        <c:when test="${isPurchased == false && cource.price==0}">
+                            <span class="not-purchased">Начните изучение чтобы посмотреть содержимое!</span>
                         </c:when>
                     </c:choose>
                 </div>
@@ -131,14 +140,40 @@
                                                 </c:when>
                                             </c:choose>
                                         </div>
-                                        <c:if test="${cource.price != 0}">
-                                            <div style="margin-top: 20px;" id="start_course_form" class="button_to">
-                                                <button id="myBtn" class="btn btn-success btn-block" >
-                                                    Приобрести
-                                                </button>
-                                            </div>
-                                        </c:if>
+                                        <c:choose>
+                                            <c:when test="${isPurchased == true && cource.price!=0}">
+                                                <div style="margin-top: 20px;" id="start_course_form" class="button_to">
+                                                    <button disabled="true" class="btn btn-success btn-block purchased" >
+                                                        Приобретено
+                                                    </button>
+                                                </div>
+                                            </c:when>
+                                            <c:when test="${isPurchased != true && cource.price != 0}">
+                                                <div style="margin-top: 20px;" id="start_course_form" class="button_to">
+                                                    <button id="myBtn" class="btn btn-success btn-block" >
+                                                        Приобрести
+                                                    </button>
+                                                </div>
+                                            </c:when>
+                                            <c:when test="${isPurchased != true && cource.price == 0}">
+                                                <div style="margin-top: 20px;" id="start_course_form" class="button_to">
+                                                    <form action="/fs/buy" method="post">
+                                                        <input type="hidden" value="${cource.id}" name="id">
+                                                        <button  class="btn btn-success btn-block" >
+                                                            Начать изучение
+                                                        </button>
+                                                    </form>
 
+                                                </div>
+                                            </c:when>
+                                            <c:when test="${isPurchased == true && cource.price == 0}">
+                                                <div style="margin-top: 20px;" id="start_course_form" class="button_to">
+                                                    <button disabled="true" class="btn btn-success btn-block purchased" >
+                                                        Вы начали курс
+                                                    </button>
+                                                </div>
+                                            </c:when>
+                                        </c:choose>
                                     </div>
                                 </div>
                             </div>
@@ -213,7 +248,8 @@
         var modal = document.getElementById("myModal");
         var btn = document.getElementById("myBtn");
         var span = document.getElementsByClassName("close")[0];
-        var closeBtn = document.getElementsByClassName("close-dialog")[0];
+        var closeBtn = document.getElementById("close-dialog");
+        var closeBtn1 = document.getElementById("close-dialog1");
 
         btn.onclick = function() {
             modal.style.display = "block";
@@ -224,6 +260,10 @@
         }
 
         closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        closeBtn1.onclick = function() {
             modal.style.display = "none";
         }
 

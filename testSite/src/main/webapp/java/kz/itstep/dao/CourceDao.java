@@ -15,12 +15,27 @@ public class CourceDao extends AbstractDao<Cource> {
 
     private static final String SQL_SELECT_ALL = "select * from public.cources";
     private static final String SQL_SELECT_BY_ID = "select * from public.cources where id=?";
+    private static final String SQL_SELECT_BY_LANG = "select * from public.cources where language=?";
+    private static final String SQL_SELECT_BY_FREE = "select * from public.cources where price=0";
+    private static final String SQL_SELECT_BY_PAID = "select * from public.cources where price!=0";
     private static final String INSERT = "insert into public.cources (name) values(?)";
-    private static final String DELETE_ID = "delete from public.cources where id=";
+    private static final String DELETE_ID = "delete from public.cources where id=?";
     private static final String DELETE_ROLE = "delete from public.cources where";
     @Override
     public boolean delete(int id) {
-        return false;
+        Connection connection = ConnectionPool.getConnectionPool().getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_ID)) {
+            preparedStatement.setInt(1, id);
+            Cource cource = new Cource();
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+            }
+            return true;
+        } catch (SQLException e){
+            logger.error(e.getMessage());
+            return false;
+        } finally {
+            ConnectionPool.getConnectionPool().releaseConnection(connection);
+        }
     }
 
     @Override
@@ -47,7 +62,7 @@ public class CourceDao extends AbstractDao<Cource> {
                 Cource cource = new Cource();
                 cource.setId(resultSet.getInt("id"));
                 cource.setDescription(resultSet.getString("description"));
-                cource.setPrice(resultSet.getBigDecimal("price"));
+                cource.setPrice(resultSet.getInt("price"));
                 cource.setTitle(resultSet.getString("title"));
                 cource.setDuration(resultSet.getInt("duration"));
                 cource.setHtmlBlock(resultSet.getString("html_block"));
@@ -86,12 +101,60 @@ public class CourceDao extends AbstractDao<Cource> {
         }
     }
 
+    public List<Cource> findByLanguage(String language) {
+        Connection connection = ConnectionPool.getConnectionPool().getConnection();
+        List<Cource> cources = new ArrayList<>();
+        LanguageDao languageDao = new LanguageDao();
+        int languageId = languageDao.findByName(language).getId();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_BY_LANG)) {
+            preparedStatement.setInt(1, languageId);
+            Cource cource = new Cource();
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    cource = setCourceParameters(resultSet);
+                    cources.add(cource);
+                }
+            }
+        } catch (SQLException e){
+            logger.error(e.getMessage());
+        } finally {
+            ConnectionPool.getConnectionPool().releaseConnection(connection);
+            return cources;
+        }
+    }
+
+    public List<Cource> findByPricingType(String pricingType) {
+        Connection connection = ConnectionPool.getConnectionPool().getConnection();
+        List<Cource> cources = new ArrayList<>();
+        String request = "";
+        if(pricingType.equals("free")){
+            request = SQL_SELECT_BY_FREE;
+        } else if(pricingType.equals("paid")){
+            request = SQL_SELECT_BY_PAID;
+        }
+        try (PreparedStatement preparedStatement = connection.prepareStatement(request)) {
+            Cource cource = new Cource();
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    cource = setCourceParameters(resultSet);
+                    cources.add(cource);
+                }
+            }
+        } catch (SQLException e){
+            logger.error(e.getMessage());
+        } finally {
+            ConnectionPool.getConnectionPool().releaseConnection(connection);
+            return cources;
+        }
+    }
+
     private Cource setCourceParameters(ResultSet resultSet){
         Cource cource = new Cource();
         try {
             cource.setId(resultSet.getInt("id"));
             cource.setDescription(resultSet.getString("description"));
-            cource.setPrice(resultSet.getBigDecimal("price"));
+            cource.setPrice(resultSet.getInt("price"));
             cource.setTitle(resultSet.getString("title"));
             cource.setDuration(resultSet.getInt("duration"));
             cource.setHtmlBlock(resultSet.getString("html_block"));

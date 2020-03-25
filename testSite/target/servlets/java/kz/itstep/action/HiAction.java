@@ -26,7 +26,28 @@ public class HiAction implements Action{
         List<Language> languages = languageDao.findAll();
         List<Cource> cources = courceDao.findAll();
 
+        String pricing_type_eq = null;
+        String language_eq = null;
 
+        try{
+            pricing_type_eq = request.getParameter("pricing_type_eq");
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        try{
+            language_eq = request.getParameter("language_eq");
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        if(pricing_type_eq != null){
+            cources = courceDao.findByPricingType(pricing_type_eq);
+            request.setAttribute(PRICING_TYPE, pricing_type_eq);
+        } else if(language_eq != null){
+            cources = courceDao.findByLanguage(language_eq);
+            request.setAttribute(LANGUAGE, language_eq);
+        }
 
         request.setAttribute(COURCES, cources);
         request.setAttribute(LANGUAGES, languages);

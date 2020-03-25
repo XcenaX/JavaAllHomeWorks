@@ -5,14 +5,14 @@ import java.math.BigDecimal;
 public class Cource extends Entity {
     private String title;
     private String description;
-    private BigDecimal price;
+    private Integer price;
     private Integer duration;
     private Language language;
     private String imgUrl;
     private String htmlBlock;
 
 
-    public Cource(String title, String description, BigDecimal price, Integer duration, Language language, String imgUrl, String htmlBlock) {
+    public Cource(String title, String description, Integer price, Integer duration, Language language, String imgUrl, String htmlBlock) {
         this.title = title;
         this.description = description;
         this.price = price;
@@ -81,11 +81,11 @@ public class Cource extends Entity {
         this.description = description;
     }
 
-    public BigDecimal getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 }

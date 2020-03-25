@@ -13,10 +13,10 @@ public class UserDao extends AbstractDao<User> {
 
     private static final String SQL_SELECT_USERS_ALL = "SELECT * FROM public.users";
     private static final String SQL_INSERT_USER =
-            "insert into public.users (login, password, first_name, last_name, role) values(?, ?, ?, ?, ?)";
+            "insert into public.users (login, password, first_name, last_name, role, money, date_of_birth) values(?, ?, ?, ?, ?, ?, ?)";
     private static final String SQL_DELETE_USER_BY_ID = "DELETE FROM public.users where id=?";
-    private static final String SQL_UPDATE_USER =
-            "UPDATE public.users set login=?, password=?, first_name=?, last_name=? where id=?";
+    private static final String SQL_UPDATE_USER = "UPDATE public.users set login=?, password=?, first_name=?, last_name=?, money=?, date_of_birth=? where id=?";
+    private static final String SQL_UPDATE_USER_PROFILE = "UPDATE public.users set first_name=?, last_name=?, date_of_birth=?, phone=? where id=?";
     private static final String SQL_SELECT_USER_BY_ID = "SELECT * FROM public.users where id=?";
     private static final String SQL_SELECT_USER_BY_LOGIN_PASSWORD = "SELECT * FROM public.users where login=? and password=?";
     private static final String SQL_SELECT_USER_BY_LOGIN = "SELECT * FROM public.users where login=?";
@@ -102,7 +102,27 @@ public class UserDao extends AbstractDao<User> {
             preparedStatement.setString(2, entity.getPassword());
             preparedStatement.setString(3, entity.getFirstName());
             preparedStatement.setString(4, entity.getLastName());
-            preparedStatement.setInt(5, entity.getId());
+            preparedStatement.setInt(5, entity.getMoney());
+            preparedStatement.setDate(6, entity.getDateOfBirth());
+            preparedStatement.executeUpdate();
+            updated = true;
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        } finally {
+            ConnectionPool.getConnectionPool().releaseConnection(connection);
+        }
+        return updated;
+    }
+
+    public boolean updateProfile(User user){
+        boolean updated = false;
+        Connection connection = ConnectionPool.getConnectionPool().getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_USER_PROFILE)) {
+            preparedStatement.setString(1, user.getFirstName());
+            preparedStatement.setString(2, user.getLastName());
+            preparedStatement.setDate(3, user.getDateOfBirth());
+            preparedStatement.setString(4, user.getPhone());
+            preparedStatement.setInt(5, user.getId());
             preparedStatement.executeUpdate();
             updated = true;
         } catch (SQLException e) {
@@ -139,6 +159,8 @@ public class UserDao extends AbstractDao<User> {
             preparedStatement.setString(3, entity.getFirstName());
             preparedStatement.setString(4, entity.getLastName());
             preparedStatement.setInt(5,1);
+            preparedStatement.setInt(6,0);
+            preparedStatement.setDate(7, entity.getDateOfBirth());
             preparedStatement.executeUpdate();
             inserted = true;
         } catch (SQLException e) {
@@ -164,6 +186,8 @@ public class UserDao extends AbstractDao<User> {
                 user.setLastName(resultSet.getString("last_name"));
                 user.setMoney(resultSet.getInt("money"));
                 user.setRole(resultSet.getInt("role"));
+                user.setDateOfBirth(resultSet.getDate("date_of_birth"));
+                user.setPhone(resultSet.getString("phone"));
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -184,6 +208,8 @@ public class UserDao extends AbstractDao<User> {
             user.setLastName(resultSet.getString("last_name"));
             user.setMoney(resultSet.getInt("money"));
             user.setRole(resultSet.getInt("role"));
+            user.setDateOfBirth(resultSet.getDate("date_of_birth"));
+            user.setPhone(resultSet.getString("phone"));
         } catch (SQLException e) {
             logger.error(e.getMessage());
         }

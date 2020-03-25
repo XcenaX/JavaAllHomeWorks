@@ -12,6 +12,14 @@
   margin: auto;
 }
 
+.back-arrow{
+  width: 20px;
+  height: 20px;
+  background-size: cover;
+  border: none;
+  margin-bottom: 20px;
+}
+
 .error{
   text-align: center;
   color: red;

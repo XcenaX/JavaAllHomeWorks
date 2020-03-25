@@ -1,5 +1,7 @@
 package kz.itstep.entity;
 
+import java.sql.Date;
+
 public class User extends Entity {
     private String login;
     private String password;
@@ -7,17 +9,37 @@ public class User extends Entity {
     private String lastName;
     private int money;
     private int role;
+    private Date dateOfBirth;
+    private String phone;
 
-    public User(String login, String password, String firstName, String lastName, int money, int role) {
+    public User(String login, String password, String firstName, String lastName, int money, int role, Date dateOfBirth, String phone) {
         this.login = login;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.money = money;
         this.role = role;
+        this.dateOfBirth = dateOfBirth;
+        this.phone = phone;
     }
 
     public User(){}
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
 
     public int getRole() {
         return role;

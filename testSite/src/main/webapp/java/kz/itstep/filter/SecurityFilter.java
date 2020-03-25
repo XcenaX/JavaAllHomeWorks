@@ -34,6 +34,10 @@ public class SecurityFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
 
         String path = req.getPathInfo();
+        if(path.contains("jquery")){
+            filterChain.doFilter(servletRequest,servletResponse);
+            return;
+        }
 
         Role role = null;
         try{
@@ -48,19 +52,19 @@ public class SecurityFilter implements Filter {
         if(role == null){
             if(!questAccess.contains(path)){
                 logger.warn("access denied!");
-                resp.sendRedirect("/fs/");
+                resp.sendRedirect("/");
                 return;
             }
-        } else if(role.equals(admin)){
+        } else if(role.getName().equals(admin)){
             if(!adminAccess.contains(path)){
                 logger.warn("access denied!");
-                resp.sendRedirect("/fs/hi");
+                resp.sendRedirect("/fs/cources");
                 return;
             }
-        } else if(role.equals(this.user)){
+        } else if(role.getName().equals(this.user)){
             if(!userAccess.contains(path)){
                 logger.warn("access denied!");
-                resp.sendRedirect("/fs/hi");
+                resp.sendRedirect("/fs/cources");
                 return;
             }
         }
@@ -76,8 +80,6 @@ public class SecurityFilter implements Filter {
     }
 
     private void initQuestAccess(){
-        questAccess.add("/info");
-        questAccess.add("/hi");
         questAccess.add("/registration");
         questAccess.add("/authorization");
         questAccess.add("/");
@@ -86,16 +88,24 @@ public class SecurityFilter implements Filter {
 
     private void initUserAccess(){
         userAccess.add("/cources");
-        questAccess.add("/info");
-        questAccess.add("/hi");
+        userAccess.add("/cource");
+        userAccess.add("/info");
+        userAccess.add("/hi");
+        userAccess.add("/buy");
+        userAccess.add("/profile");
+        userAccess.add("/profile/edit");
+
     }
 
     private void initAdminAccess(){
         adminAccess.add("/admin");
         adminAccess.add("/cources");
-        questAccess.add("/info");
-        questAccess.add("/hi");
-        questAccess.add("/registration");
-        questAccess.add("/authorization");
+        adminAccess.add("/cource");
+        adminAccess.add("/info");
+        adminAccess.add("/hi");
+        adminAccess.add("/buy");
+        adminAccess.add("/delete");
+        adminAccess.add("/profile");
+        adminAccess.add("/profile/edit");
     }
 }
