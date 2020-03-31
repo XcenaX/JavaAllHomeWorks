@@ -19,8 +19,7 @@ public class CourceDao extends AbstractDao<Cource> {
     private static final String SQL_SELECT_BY_FREE = "select * from public.cources where price=0";
     private static final String SQL_SELECT_BY_PAID = "select * from public.cources where price!=0";
     private static final String INSERT = "insert into public.cources (name) values(?)";
-    private static final String DELETE_ID = "delete from public.cources where id=?";
-    private static final String DELETE_ROLE = "delete from public.cources where";
+    private static final String DELETE_ID = "UPDATE public.cources set deleted=true where id=?";
     @Override
     public boolean delete(int id) {
         Connection connection = ConnectionPool.getConnectionPool().getConnection();
@@ -36,6 +35,7 @@ public class CourceDao extends AbstractDao<Cource> {
         } finally {
             ConnectionPool.getConnectionPool().releaseConnection(connection);
         }
+
     }
 
     @Override
@@ -66,7 +66,7 @@ public class CourceDao extends AbstractDao<Cource> {
                 cource.setTitle(resultSet.getString("title"));
                 cource.setDuration(resultSet.getInt("duration"));
                 cource.setHtmlBlock(resultSet.getString("html_block"));
-
+                cource.setDeleted(resultSet.getBoolean("deleted"));
                 LanguageDao languageDao = new LanguageDao();
                 Language language = languageDao.findById(resultSet.getInt("language"));
 
@@ -160,7 +160,7 @@ public class CourceDao extends AbstractDao<Cource> {
             cource.setHtmlBlock(resultSet.getString("html_block"));
             LanguageDao languageDao = new LanguageDao();
             Language language = languageDao.findById(resultSet.getInt("language"));
-
+            cource.setDeleted(resultSet.getBoolean("deleted"));
             cource.setLanguage(language);
         } catch (SQLException e) {
             logger.error(e.getMessage());

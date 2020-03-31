@@ -10,9 +10,9 @@ public class Cource extends Entity {
     private Language language;
     private String imgUrl;
     private String htmlBlock;
+    private boolean deleted;
 
-
-    public Cource(String title, String description, Integer price, Integer duration, Language language, String imgUrl, String htmlBlock) {
+    public Cource(String title, String description, Integer price, Integer duration, Language language, String imgUrl, String htmlBlock, boolean deleted) {
         this.title = title;
         this.description = description;
         this.price = price;
@@ -20,6 +20,7 @@ public class Cource extends Entity {
         this.language = language;
         this.imgUrl = imgUrl;
         this.htmlBlock = htmlBlock;
+        this.deleted = deleted;
     }
 
     public String getHour(int hour){
@@ -32,6 +33,14 @@ public class Cource extends Entity {
     }
 
     public Cource(){}
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
     public String getHtmlBlock() {
         return htmlBlock;

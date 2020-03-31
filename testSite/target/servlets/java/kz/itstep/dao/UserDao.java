@@ -4,6 +4,7 @@ import kz.itstep.entity.User;
 import kz.itstep.pool.ConnectionPool;
 import org.apache.log4j.Logger;
 
+import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ public class UserDao extends AbstractDao<User> {
     private static final String SQL_INSERT_USER =
             "insert into public.users (login, password, first_name, last_name, role, money, date_of_birth) values(?, ?, ?, ?, ?, ?, ?)";
     private static final String SQL_DELETE_USER_BY_ID = "DELETE FROM public.users where id=?";
-    private static final String SQL_UPDATE_USER = "UPDATE public.users set login=?, password=?, first_name=?, last_name=?, money=?, date_of_birth=? where id=?";
+    private static final String SQL_UPDATE_USER = "UPDATE public.users set login=?, password=?, first_name=?, last_name=?, money=?, date_of_birth=?, image=? where id=?";
     private static final String SQL_UPDATE_USER_PROFILE = "UPDATE public.users set first_name=?, last_name=?, date_of_birth=?, phone=? where id=?";
     private static final String SQL_SELECT_USER_BY_ID = "SELECT * FROM public.users where id=?";
     private static final String SQL_SELECT_USER_BY_LOGIN_PASSWORD = "SELECT * FROM public.users where login=? and password=?";
@@ -104,6 +105,8 @@ public class UserDao extends AbstractDao<User> {
             preparedStatement.setString(4, entity.getLastName());
             preparedStatement.setInt(5, entity.getMoney());
             preparedStatement.setDate(6, entity.getDateOfBirth());
+            preparedStatement.setBytes(7, entity.getImage());
+            preparedStatement.setInt(8, entity.getId());
             preparedStatement.executeUpdate();
             updated = true;
         } catch (SQLException e) {
@@ -114,15 +117,16 @@ public class UserDao extends AbstractDao<User> {
         return updated;
     }
 
-    public boolean updateProfile(User user){
+    public boolean updateProfile(User user) throws FileNotFoundException {
         boolean updated = false;
+
         Connection connection = ConnectionPool.getConnectionPool().getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_USER_PROFILE)) {
             preparedStatement.setString(1, user.getFirstName());
             preparedStatement.setString(2, user.getLastName());
             preparedStatement.setDate(3, user.getDateOfBirth());
             preparedStatement.setString(4, user.getPhone());
-            preparedStatement.setInt(5, user.getId());
+            preparedStatement.setInt(6, user.getId());
             preparedStatement.executeUpdate();
             updated = true;
         } catch (SQLException e) {
@@ -215,5 +219,20 @@ public class UserDao extends AbstractDao<User> {
         }
 
         return user;
+    }
+
+    public static byte [] ImageToByte(File file) throws FileNotFoundException {
+        FileInputStream fis = new FileInputStream(file);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        byte[] buf = new byte[1024];
+        try {
+            for (int readNum; (readNum = fis.read(buf)) != -1;) {
+                bos.write(buf, 0, readNum);
+                System.out.println("read " + readNum + " bytes,");
+            }
+        } catch (IOException ex) {
+        }
+        byte[] bytes = bos.toByteArray();
+        return bytes;
     }
 }

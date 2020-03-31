@@ -1,15 +1,19 @@
 package kz.itstep.action;
 
+import kz.itstep.entity.User;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static kz.itstep.util.AppConstant.*;
-
-public class InfoAction implements Action {
+public class LogoutAction implements Action {
     @Override
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher(URL_INFO_PAGE).forward(request, response);
+        HttpSession session = request.getSession();
+        session.invalidate();
+
+        response.sendRedirect("/");
     }
 }

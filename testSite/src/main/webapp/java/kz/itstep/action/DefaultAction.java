@@ -7,10 +7,23 @@ import java.io.IOException;
 
 import static kz.itstep.util.AppConstant.URL_ADMIN_PAGE;
 
-public class AdminAction implements Action {
+public class DefaultAction implements Action {
+    private String page;
+
+    public String getPage() {
+        return page;
+    }
+
+    public void setPage(String page) {
+        this.page = page;
+    }
+
+    public DefaultAction(String page) {
+        this.page = page;
+    }
 
     @Override
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher(URL_ADMIN_PAGE).forward(request, response);
+        request.getRequestDispatcher(page).forward(request, response);
     }
 }

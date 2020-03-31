@@ -22,6 +22,7 @@ public class ActionFactory {
         PAGES.put("GET/admin", new AdminAction());
         PAGES.put("GET/profile", new ProfileAction());
         PAGES.put("GET/profile/edit", new EditProfileAction());
+        PAGES.put("GET/logout", new LogoutAction());
 
         PAGES.put("POST/profile/edit", new EditProfileAction());
         PAGES.put("POST/delete", new DeleteAction());

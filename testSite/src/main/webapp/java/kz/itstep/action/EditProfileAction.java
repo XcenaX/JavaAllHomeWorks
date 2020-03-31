@@ -4,14 +4,19 @@ import kz.itstep.dao.UserDao;
 import kz.itstep.entity.User;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.sql.Date;
 
 import static kz.itstep.util.AppConstant.*;
-
+@MultipartConfig
 public class EditProfileAction implements Action {
     @Override
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,7 +33,7 @@ public class EditProfileAction implements Action {
             String dateOfBirth = request.getParameter("date_of_birth");
             Date date = Date.valueOf(dateOfBirth);
 
-            String avatar = request.getParameter("avatar");
+
 
             user.setFirstName(firstName);
             user.setLastName(lastName);

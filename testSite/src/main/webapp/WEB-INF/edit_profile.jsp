@@ -53,7 +53,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link hexlet-navbar-link px-3 " href="/u/new?from=https%3A%2F%2Fru.hexlet.io%2Fcourses">
+                <a class="nav-link hexlet-navbar-link px-3 " href="/fs/logout">
                     <div class="my-2" style="color: red;">Выйти</div>
                 </a>
             </li>
@@ -109,7 +109,7 @@
                                     <div>
                                         <img class="img-fluid rounded shadow-sm mb-3" src="https://cdn2.hexlet.io/assets/team/you-0d6975dd3165f8174f242a784f3beb84835b60d93e446821299ac562e4cff9c3.jpg">
                                         <div class="custom-file">
-                                            <input class="custom-file-input image_preview optional" width="290" height="290" shrine_options="{:fallback=>&quot;https://cdn2.hexlet.io/assets/team/you-0d6975dd3165f8174f242a784f3beb84835b60d93e446821299ac562e4cff9c3.jpg&quot;}" type="file" name="avatar" id="user_avatar">
+                                            <input class="custom-file-input image_preview optional" width="290" height="290" type="file" name="avatar" id="user_avatar">
                                             <label class="custom-file-label image_preview optional" for="user_avatar">Аватар</label>
                                         </div>
                                     </div>

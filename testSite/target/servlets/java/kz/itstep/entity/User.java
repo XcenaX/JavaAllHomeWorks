@@ -11,6 +11,7 @@ public class User extends Entity {
     private int role;
     private Date dateOfBirth;
     private String phone;
+    private byte[] image;
 
     public User(String login, String password, String firstName, String lastName, int money, int role, Date dateOfBirth, String phone) {
         this.login = login;
@@ -24,6 +25,14 @@ public class User extends Entity {
     }
 
     public User(){}
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
 
     public String getPhone() {
         return phone;

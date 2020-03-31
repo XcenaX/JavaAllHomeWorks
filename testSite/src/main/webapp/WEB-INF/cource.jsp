@@ -64,7 +64,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link hexlet-navbar-link px-3 " href="/u/new?from=https%3A%2F%2Fru.hexlet.io%2Fcourses">
+                    <a class="nav-link hexlet-navbar-link px-3 " href="/fs/logout">
                         <div class="my-2" style="color: red;">Выйти</div>
                     </a>
                 </li>

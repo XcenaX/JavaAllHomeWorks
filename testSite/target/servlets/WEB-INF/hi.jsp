@@ -40,7 +40,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link hexlet-navbar-link px-3 " href="/fs/login">
+                <a class="nav-link hexlet-navbar-link px-3 " href="/fs/logout">
                     <div class="my-2" style="color: red;">Выйти</div>
                 </a>
             </li>
@@ -141,39 +141,41 @@
             <div class="row">
                 <c:if test="${not empty cources}">
                     <c:forEach items="${cources}" var="cource">
-                        <div class="mb-5 col-lg-4 col-sm-6 col-12">
-                            <div class="card shadow-sm x-shadow-fade-in h-100">
-                                <div class="bg-success card-header d-flex flex-column py-1 text-white">
-                                    <div class="d-flex">
-                                        <div class="cource-img" style="background-image:url('${cource.language.imgUrl}')"></div>
-                                        <div class="ml-auto my-auto">
-                                               ${cource.duration} ${cource.getHour(cource.duration)}
+                        <c:if test="${cource.deleted == false}">
+                            <div class="mb-5 col-lg-4 col-sm-6 col-12">
+                                <div class="card shadow-sm x-shadow-fade-in h-100">
+                                    <div class="bg-success card-header d-flex flex-column py-1 text-white">
+                                        <div class="d-flex">
+                                            <div class="cource-img" style="background-image:url('${cource.language.imgUrl}')"></div>
+                                            <div class="ml-auto my-auto">
+                                                   ${cource.duration} ${cource.getHour(cource.duration)}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="card-body d-flex flex-column">
-                                    <div class="row flex-wrap-reverse px-3">
-                                        <h5 class="col-auto col-sm-10 mr-auto p-0">${cource.title}</h5>
-                                        <div>
-                                            <span class="badge badge-light p-0">${cource.price}тг</span>
+                                    <div class="card-body d-flex flex-column">
+                                        <div class="row flex-wrap-reverse px-3">
+                                            <h5 class="col-auto col-sm-10 mr-auto p-0">${cource.title}</h5>
+                                            <div>
+                                                <span class="badge badge-light p-0">${cource.price}тг</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="text-muted mb-2">${fn:substring(cource.description, -1, 60)}...</div>
-                                    <div class="mt-auto d-flex">
-                                        <div class="ml-auto">
-                                            <a class="x-link-without-decoration <c:if test="${currentUser.role != 2}">stretched-link</c:if>" href="/fs/cource?courceId=${cource.id}">Посмотреть</a>
-                                            <c:if test="${currentUser.role==2}">
-                                                <form action="/fs/delete" method="post" style="display: inline-block;">
-                                                    <input type="hidden" value="${cource.id}" name="courceId">
-                                                    <button class="x-link-without-decoration" style="color: red;font-size: 13px;" type="submit">Удалить</button>
-                                                </form>
+                                        <div class="text-muted mb-2">${fn:substring(cource.description, -1, 60)}...</div>
+                                        <div class="mt-auto d-flex">
+                                            <div class="ml-auto">
+                                                <a class="x-link-without-decoration <c:if test="${currentUser.role != 2}">stretched-link</c:if>" href="/fs/cource?courceId=${cource.id}">Посмотреть</a>
+                                                <c:if test="${currentUser.role==2}">
+                                                    <form action="/fs/delete" method="post" style="display: inline-block;">
+                                                        <input type="hidden" value="${cource.id}" name="courceId">
+                                                        <button class="x-link-without-decoration" style="color: red;font-size: 13px;" type="submit">Удалить</button>
+                                                    </form>
 
-                                            </c:if>
+                                                </c:if>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </c:if>
                     </c:forEach>
                 </c:if>
                 <c:if test="${empty cources}">

@@ -82,7 +82,7 @@ public class SecurityFilter implements Filter {
     private void initQuestAccess(){
         questAccess.add("/registration");
         questAccess.add("/authorization");
-        questAccess.add("/");
+        questAccess.add("/login");
 
     }
 
@@ -94,6 +94,7 @@ public class SecurityFilter implements Filter {
         userAccess.add("/buy");
         userAccess.add("/profile");
         userAccess.add("/profile/edit");
+        userAccess.add("/logout");
 
     }
 
@@ -102,10 +103,10 @@ public class SecurityFilter implements Filter {
         adminAccess.add("/cources");
         adminAccess.add("/cource");
         adminAccess.add("/info");
-        adminAccess.add("/hi");
         adminAccess.add("/buy");
         adminAccess.add("/delete");
         adminAccess.add("/profile");
         adminAccess.add("/profile/edit");
+        adminAccess.add("/logout");
     }
 }

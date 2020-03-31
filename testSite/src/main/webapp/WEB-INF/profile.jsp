@@ -51,7 +51,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link hexlet-navbar-link px-3 " href="/u/new?from=https%3A%2F%2Fru.hexlet.io%2Fcourses">
+                    <a class="nav-link hexlet-navbar-link px-3 " href="/fs/logout">
                         <div class="my-2" style="color: red;">Выйти</div>
                     </a>
                 </li>
@@ -95,7 +95,7 @@
                                     <div class="card shadow-sm x-shadow-fade-in h-100">
                                         <div class="bg-success card-header d-flex flex-column py-1 text-white">
                                             <div class="d-flex">
-                                                <div class="cource-img" style="background-image:url('${cource.language.imgUrl}')"></div>
+                                                <div class="cource-img" style="width: 24px;background-size: cover;height: 24px;background-image:url('${cource.language.imgUrl}')"></div>
                                                 <div class="ml-auto my-auto">
                                                         ${cource.duration} ${cource.getHour(cource.duration)}
                                                 </div>
@@ -112,7 +112,7 @@
                                             <div class="mt-auto d-flex">
                                                 <div class="ml-auto">
                                                     <a class="x-link-without-decoration <c:if test="${currentUser.role != 2}">stretched-link</c:if>" href="/fs/cource?courceId=${cource.id}">Посмотреть</a>
-                                                    <c:if test="${currentUser.role==2}">
+                                                    <c:if test="${currentUser.role==2 && cource.deleted==false}">
                                                         <form action="/fs/delete" method="post" style="display: inline-block;">
                                                             <input type="hidden" value="${cource.id}" name="courceId">
                                                             <button class="x-link-without-decoration" style="color: red;font-size: 13px;" type="submit">Удалить</button>

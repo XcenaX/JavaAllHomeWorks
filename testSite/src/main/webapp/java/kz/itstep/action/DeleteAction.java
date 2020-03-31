@@ -17,8 +17,7 @@ public class DeleteAction implements Action {
         CourceDao courceDao = new CourceDao();
         courceDao.delete(courceId);
 
-        PurchasedCourceDao purchasedCourceDao = new PurchasedCourceDao();
-        purchasedCourceDao.delete(courceId);
+
 
         response.sendRedirect("/fs/cources");
     }

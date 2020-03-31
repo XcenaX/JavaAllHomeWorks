@@ -25,4 +25,5 @@ public final class AppConstant {
     public static final String URL_PROFILE_EDIT_PAGE = "/WEB-INF/edit_profile.jsp";
     public static final String USER_COURCES = "userCources";
     public static final String PROFILE_EDITED = "profileEdited";
+    public static final String UPLOAD_DIRECTORY = "images";
 }
