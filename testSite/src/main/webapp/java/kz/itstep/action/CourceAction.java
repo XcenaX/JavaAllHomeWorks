@@ -7,6 +7,7 @@ import kz.itstep.entity.PurchasedCource;
 import kz.itstep.entity.User;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -25,6 +26,9 @@ public class CourceAction implements Action {
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("currentUser");
 
+        String currentLang = getCurrentLang(request);
+        request.setAttribute(LANG, currentLang);
+
         PurchasedCourceDao purchasedCourceDao = new PurchasedCourceDao();
         List<PurchasedCource> purchasedCourceList = purchasedCourceDao.findByUserId(user.getId());
         PurchasedCource purchasedCource = new PurchasedCource(user.getId(), cource.getId());
@@ -33,6 +37,7 @@ public class CourceAction implements Action {
             for (int i = 0; i < purchasedCourceList.size(); i++) {
                 if(purchasedCource.getCourceId() == purchasedCourceList.get(i).getCourceId() && purchasedCource.getUserId() == purchasedCourceList.get(i).getUserId()){
                     contains = true;
+                    break;
                 }
             }
             request.setAttribute(IS_PURCHASED, contains);
@@ -40,5 +45,16 @@ public class CourceAction implements Action {
 
         request.setAttribute(COURCE, cource);
         request.getRequestDispatcher(COURCE_PAGE).forward(request, response);
+    }
+    public String getCurrentLang(HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+        String currentLang = "";
+        for (int i = 0; i < cookies.length; i++) {
+            String name = cookies[i].getName();
+            if(name.equals("language")){
+                currentLang = cookies[i].getValue();
+            }
+        }
+        return currentLang;
     }
 }

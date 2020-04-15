@@ -35,15 +35,13 @@
     <fmt:message key="card_data" var="card_data"/>
     <fmt:message key="as_indicated_on_the_card" var="as_indicated_on_the_card"/>
     <fmt:message key="amount_to_replenish" var="amount_to_replenish"/>
-    <fmt:message key="continue" var="continue"/>
+    <fmt:message key="continue" var="my_continue"/>
     <fmt:message key="login_ru" var="login_ru"/>
     <fmt:message key="no_account" var="no_account"/>
     <fmt:message key="create_him" var="create_him"/>
     <fmt:message key="has_account" var="has_account"/>
     <fmt:message key="login_now" var="login_now"/>
     <fmt:message key="retype" var="retype"/>
-    <fmt:message key="upload" var="upload"/>
-    <fmt:message key="avatar" var="avatar"/>
     <fmt:message key="about" var="about"/>
     <fmt:message key="tos" var="tos"/>
     <fmt:message key="privacy" var="privacy"/>
@@ -54,33 +52,21 @@
     <fmt:message key="prices" var="prices"/>
     <fmt:message key="knowledge" var="knowledge"/>
     <fmt:message key="topics" var="topics"/>
-    <fmt:message key="upload_error" var="my_upload_error"/>
 </fmt:bundle>
 
 <html>
 <head>
-    <title>Редактирование - ${currentUser.firstName}</title>
+    <title>Пополнить кошелек</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="stylesheet" media="all" href="https://cdn2.hexlet.io/assets/application-6c79ff11f91a2bc1f99cd07b254b3f0c28c107706cefef4d910ca3b4ba7f5266.css">
     <link rel="stylesheet" media="screen" href="https://cdn2.hexlet.io/packs/css/41-4310e18e.chunk.css">
-    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://ru.hexlet.io/lessons.rss">
     <link id="avast_os_ext_custom_font" href="chrome-extension://eofcbnmajmjmplflapaojjnihcjkigck/common/ui/fonts/fonts.css" rel="stylesheet" type="text/css">
-
     <style>
-        <jsp:directive.include file="styles/bootstrap.min.css"/>
-        <jsp:directive.include file="styles/font-awesome.min.css"/>
-        <jsp:directive.include file="styles/material-design-iconic-font.min.css"/>
-        <jsp:directive.include file="styles/animate.css"/>
-        <jsp:directive.include file="styles/hamburgers.min.css"/>
-        <jsp:directive.include file="styles/animsition.min.css"/>
-        <jsp:directive.include file="styles/select2.min.css"/>
-        <jsp:directive.include file="styles/daterangepicker.css"/>
-        <jsp:directive.include file="styles/util.css"/>
-        <jsp:directive.include file="styles/main.css"/>
         <jsp:directive.include file="styles/cource.css"/>
+        <jsp:directive.include file="styles/main.css"/>
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
 
@@ -100,7 +86,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link hexlet-navbar-link px-3" href="/fs/increase-balance">
+                <a class="nav-link hexlet-navbar-link px-3 active" href="/fs/increase-balance">
                     <div class="my-2">${increase_balance_text}</div>
                 </a>
             </li>
@@ -116,7 +102,7 @@
 
             </li>
             <li class="nav-item">
-                <a class="nav-link hexlet-navbar-link px-3 " href="/fs/profile">
+                <a class="nav-link hexlet-navbar-link px-3" href="/fs/profile">
                     <div class="my-2">${currentUser.firstName} ${currentUser.lastName}</div>
                 </a>
             </li>
@@ -129,94 +115,45 @@
     </div>
 </nav>
 <!-- HEADER BLOCK -->
-<c:if test="${profileEdited == true}">
-    <div class="alert alert-dismissable alert-success mb-0 rounded-0" id="success-update">
-        <button aria-hidden="true" class="close" id="close" data-dismiss="alert" type="button">×</button>
-        ${profile_updated}
-    </div>
-</c:if>
-<c:if test="${not empty error}">
-    <div class="alert alert-dismissable alert-success mb-0 rounded-0" style="background-color: #edd4d4; border-color: #e6c3c3" id="success-update2">
-        <button aria-hidden="true" class="close" id="close2" data-dismiss="alert" type="button">×</button>
-        ${error}
-    </div>
-</c:if>
-<c:if test="${not empty upload_error}">
-    <div class="alert alert-dismissable alert-success mb-0 rounded-0" style="background-color: #edd4d4; border-color: #e6c3c3" id="success-update2">
-        <button aria-hidden="true" class="close" id="close2" data-dismiss="alert" type="button">×</button>
-            ${my_upload_error}
-    </div>
-</c:if>
 
-
-    <main>
-        <div class="container m-t-20">
-            <div class="row">
-
-                <div class="col-12 col-lg-12 mt-5 mt-lg-0">
-                    <a href="/fs/profile" style="border: none;">
-                        <img src="https://image.flaticon.com/icons/svg/271/271218.svg" alt="Назад" class="back-arrow">
-                    </a>
-                    <h3>
-                        ${profile} ${currentUser.firstName} ${currentUser.lastName}
-                    </h3>
-
-                    <input name="utf8" type="hidden" value="✓">
-                    <input type="hidden" name="_method" value="patch">
-                    <div class="row">
-                        <div class="col-12 col-xl-6">
-                            <form class="simple_form edit_user" novalidate="novalidate" action="/fs/profile/edit" method="post">
-                                <div class="form-group string optional user_first_name form-group-valid">
-                                    <label class="string optional" for="user_first_name">${name}</label>
-                                    <input class="form-control is-valid string optional" type="text" value="${currentUser.firstName}" name="firstName" id="user_first_name">
+<main>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8">
+                <h1 class="text-center mt-4 mb-5 font-weight-light">${increase_balance_text}</h1>
+            </div>
+        </div>
+        <div id="subscription">
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-11 col-md-8 col-lg-6">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <div class="row row-cols-4 mx-5 w-50 mb-4 mx-auto"><img src="https://ru.hexlet.io/packs/media/flat/visa-bca381c0.svg" class="pr-1" alt="Visa"><img src="https://ru.hexlet.io/packs/media/flat/mastercard-04088ba3.svg" class="pr-1" alt="MasterCard"><img src="https://ru.hexlet.io/packs/media/flat/amex-4d5c06d0.svg" class="pr-1" alt="American Express"><img src="https://ru.hexlet.io/packs/media/flat/discover-60a47d2e.svg" alt="Discover"></div>
+                            <form action="/fs/increase-balance" method="post">
+                                <div class="form-group">
+                                    <label class="form-label" for="card">${card_data}</label>
+                                    <input type="tel" name="card-number" class="form-control nums" id="card"  autocomplete="cc-number" required="" pattern=".{19,19}" maxlength="19" placeholder="xxxx xxxx xxxx xxxx" onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : (!isNaN(Number(event.key)) && event.key != ' ')">
                                 </div>
-                                <div class="form-group string optional user_last_name form-group-valid">
-                                    <label class="string optional" for="user_last_name">${last_name}</label>
-                                    <input class="form-control is-valid string optional" type="text" value="${currentUser.lastName}" name="lastName" id="user_last_name">
+                                <div class="form-group">
+                                    <label class="form-label" for="name">${name}</label>
+                                    <input name="name" required="" type="text" id="name" class="form-control" value=""><small class="text-muted form-text">${as_indicated_on_the_card}</small>
                                 </div>
-
-                                <div class="form-group date optional user_birthday">
-                                    <label class="date optional" for="user_birthday">${date_of_birth}</label>
-                                    <div class="d-flex flex-row justify-content-between align-items-center">
-                                        <input class="form-control mx-1 custom-select date optional" type="date" <c:if test="${currentUser.dateOfBirth != null}">value="${currentUser.dateOfBirth}"</c:if> name="date_of_birth" id="user_birthday">
-                                    </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="name">${amount_to_replenish}</label>
+                                    <input name="sum" type="tel" id="sum" class="form-control" value="" minlength="1" required="" autocomplete="cc-number" maxlength="7" onkeydown="javascript: console.log(event.key);return event.keyCode === 8 || event.keyCode === 46  ? true : (!isNaN(Number(event.key)) && event.key != ' ')">
                                 </div>
-                                <div class="form-group tel optional user_phone_number">
-                                    <label class="tel optional" for="user_phone_number">${phone}</label>
-                                    <input maxlength="15" class="form-control string tel optional" type="tel" <c:if test="${currentUser.phone != null}">value="${currentUser.phone}"</c:if> name="phone" id="user_phone_number" onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : (!isNaN(Number(event.key)) && event.key != ' ')">
-                                </div>
-                                <div class="row mt-4">
-                                    <div class="col-12">
-                                        <input type="submit" name="commit" value="${submit}" class="btn px-5 m-b-20 btn-primary" data-disable-with="Сохранить">
-                                    </div>
+                                <div class="row justify-content-center mt-3">
+                                    <button type="submit" class="btn btn-success px-4 btn-lg" data-facebook-pixel-id="Purchase">${my_continue}</button>
                                 </div>
                             </form>
-                        </div>
-                        <div class="col-12 col-xl-6">
-                            <div class="form-group image_preview optional user_avatar">
-                                <div>
-                                    <c:if test="${hasImage == true}">
-                                        <img class="img-fluid rounded shadow-sm mb-3 profile-image" src="data:image/jpg;base64,${currentUser.base64image}">
-                                    </c:if>
-                                    <c:if test="${hasImage == false}">
-                                        <img class="img-fluid rounded shadow-sm mb-3 profile-image" src="https://cdn2.hexlet.io/assets/team/you-0d6975dd3165f8174f242a784f3beb84835b60d93e446821299ac562e4cff9c3.jpg">
-                                    </c:if>
-
-                                    <form action="/UploadServlet" method="post" enctype="multipart/form-data" class="photo-form">
-                                        <div class="custom-file">
-                                            <input class="custom-file-input image_preview optional" width="290" height="290" type="file" name="avatar" id="user_avatar">
-                                            <label class="custom-file-label image_preview optional" for="user_avatar">${avatar}</label>
-                                        </div>
-                                        <button type="submit" class="submit-avatar btn px-5">${upload}</button>
-                                    </form>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
+</main>
+
 
 <!-- FOOTER BLOCK -->
 <footer class="footer hexlet-footer bg-light border-top pb-5 mt-5">
@@ -274,22 +211,13 @@
 <!-- FOOTER BLOCK -->
 
 <script type="text/javascript">
-    var modal = document.getElementById("success-update");
-    var btn = document.getElementById("close");
-
-    var modal2 = document.getElementById("success-update2");
-    var btn2 = document.getElementById("close2");
-    if(btn){
-        btn.onclick = function() {
-            modal.style.display = "none";
-        };
-    }
-
-    if(btn2){
-        btn2.onclick = function() {
-            modal2.style.display = "none";
-        };
-    }
+    $('.nums').on('keyup', function() {
+        var foo = $(this).val().split(" ").join("");
+        if (foo.length > 0) {
+            foo = foo.match(new RegExp('.{1,4}', 'g')).join(" ");
+        }
+        $(this).val(foo);
+    });
 </script>
 
 </body>

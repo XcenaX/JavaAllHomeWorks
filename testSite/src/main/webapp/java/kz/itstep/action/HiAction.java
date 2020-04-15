@@ -23,6 +23,9 @@ public class HiAction implements Action{
         CourceDao courceDao = new CourceDao();
         LanguageDao languageDao = new LanguageDao();
 
+        String currentLang = getCurrentLang(request);
+        request.setAttribute("systemLang", currentLang);
+
         List<Language> languages = languageDao.findAll();
         List<Cource> cources = courceDao.findAll();
 
@@ -41,16 +44,28 @@ public class HiAction implements Action{
             System.out.println(e.getMessage());
         }
 
-        if(pricing_type_eq != null){
+        if(pricing_type_eq != null && language_eq != null){
+            cources = courceDao.findByLanguageAndPricingType(language_eq, pricing_type_eq);
+        } else if(pricing_type_eq != null){
             cources = courceDao.findByPricingType(pricing_type_eq);
-            request.setAttribute(PRICING_TYPE, pricing_type_eq);
         } else if(language_eq != null){
             cources = courceDao.findByLanguage(language_eq);
-            request.setAttribute(LANGUAGE, language_eq);
         }
-
+        request.setAttribute(LANGUAGE, language_eq);
+        request.setAttribute(PRICING_TYPE, pricing_type_eq);
         request.setAttribute(COURCES, cources);
         request.setAttribute(LANGUAGES, languages);
         request.getRequestDispatcher(URL_HI_PAGE).forward(request, response);
+    }
+    public String getCurrentLang(HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+        String currentLang = "";
+        for (int i = 0; i < cookies.length; i++) {
+            String name = cookies[i].getName();
+            if(name.equals("language")){
+                currentLang = cookies[i].getValue();
+            }
+        }
+        return currentLang;
     }
 }

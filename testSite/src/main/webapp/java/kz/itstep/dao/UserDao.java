@@ -7,10 +7,11 @@ import org.apache.log4j.Logger;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public class UserDao extends AbstractDao<User> {
-    private Logger logger = Logger.getLogger(CourceDao.class);
+    private Logger logger = Logger.getLogger(UserDao.class);
 
     private static final String SQL_SELECT_USERS_ALL = "SELECT * FROM public.users";
     private static final String SQL_INSERT_USER =
@@ -21,6 +22,8 @@ public class UserDao extends AbstractDao<User> {
     private static final String SQL_SELECT_USER_BY_ID = "SELECT * FROM public.users where id=?";
     private static final String SQL_SELECT_USER_BY_LOGIN_PASSWORD = "SELECT * FROM public.users where login=? and password=?";
     private static final String SQL_SELECT_USER_BY_LOGIN = "SELECT * FROM public.users where login=?";
+    private static final String SQL_UPDATE_AVATAR = "update public.users set avatar=? where id=?";
+    private static final String SQL_UPDATE_BALANCE = "update public.users set money=? where id=?";
 
     public User findByLoginAndPassword(String login, String password){
         User user = null;
@@ -126,7 +129,7 @@ public class UserDao extends AbstractDao<User> {
             preparedStatement.setString(2, user.getLastName());
             preparedStatement.setDate(3, user.getDateOfBirth());
             preparedStatement.setString(4, user.getPhone());
-            preparedStatement.setInt(6, user.getId());
+            preparedStatement.setInt(5, user.getId());
             preparedStatement.executeUpdate();
             updated = true;
         } catch (SQLException e) {
@@ -192,6 +195,10 @@ public class UserDao extends AbstractDao<User> {
                 user.setRole(resultSet.getInt("role"));
                 user.setDateOfBirth(resultSet.getDate("date_of_birth"));
                 user.setPhone(resultSet.getString("phone"));
+
+                byte[] avatar = resultSet.getBytes("avatar");
+                user.setImage(avatar);
+                user.setBase64image(getBase64Image(avatar));
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -200,6 +207,16 @@ public class UserDao extends AbstractDao<User> {
             ConnectionPool.getConnectionPool().releaseConnection(connection);
         }
         return users;
+    }
+
+    public String getBase64Image(byte[] avatar){
+        String base64Image = "";
+        try{
+            base64Image = Base64.getEncoder().encodeToString(avatar);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        return base64Image;
     }
 
     private User setUserParameters(ResultSet resultSet){
@@ -214,6 +231,10 @@ public class UserDao extends AbstractDao<User> {
             user.setRole(resultSet.getInt("role"));
             user.setDateOfBirth(resultSet.getDate("date_of_birth"));
             user.setPhone(resultSet.getString("phone"));
+
+            byte[] avatar = resultSet.getBytes("avatar");
+            user.setImage(avatar);
+            user.setBase64image(getBase64Image(avatar));
         } catch (SQLException e) {
             logger.error(e.getMessage());
         }
@@ -221,18 +242,43 @@ public class UserDao extends AbstractDao<User> {
         return user;
     }
 
-    public static byte [] ImageToByte(File file) throws FileNotFoundException {
-        FileInputStream fis = new FileInputStream(file);
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        byte[] buf = new byte[1024];
-        try {
-            for (int readNum; (readNum = fis.read(buf)) != -1;) {
-                bos.write(buf, 0, readNum);
-                System.out.println("read " + readNum + " bytes,");
-            }
-        } catch (IOException ex) {
+    public boolean updatePhoto(InputStream inputStream, int id) throws FileNotFoundException {
+        boolean updated = false;
+
+        Connection connection = ConnectionPool.getConnectionPool().getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_AVATAR)) {
+            int length = inputStream.available();
+            preparedStatement.setBinaryStream(1, inputStream, length);
+            preparedStatement.setInt(2, id);
+            preparedStatement.executeUpdate();
+            updated = true;
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        } catch (IOException e){
+            logger.error(e.getMessage());
         }
-        byte[] bytes = bos.toByteArray();
-        return bytes;
+        finally {
+            ConnectionPool.getConnectionPool().releaseConnection(connection);
+        }
+        return updated;
     }
+
+    public boolean updateBalance(int balance, int id) throws FileNotFoundException {
+        boolean updated = false;
+
+        Connection connection = ConnectionPool.getConnectionPool().getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_BALANCE)) {
+            preparedStatement.setInt(1, balance);
+            preparedStatement.setInt(2, id);
+            preparedStatement.executeUpdate();
+            updated = true;
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        } finally {
+            ConnectionPool.getConnectionPool().releaseConnection(connection);
+        }
+        return updated;
+    }
+
+
 }

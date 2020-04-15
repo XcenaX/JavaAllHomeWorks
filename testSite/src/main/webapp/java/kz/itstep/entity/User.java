@@ -1,5 +1,7 @@
 package kz.itstep.entity;
 
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Date;
 
 public class User extends Entity {
@@ -12,6 +14,7 @@ public class User extends Entity {
     private Date dateOfBirth;
     private String phone;
     private byte[] image;
+    private String base64image;
 
     public User(String login, String password, String firstName, String lastName, int money, int role, Date dateOfBirth, String phone) {
         this.login = login;
@@ -22,9 +25,18 @@ public class User extends Entity {
         this.role = role;
         this.dateOfBirth = dateOfBirth;
         this.phone = phone;
+
     }
 
     public User(){}
+
+    public String getBase64image() {
+        return base64image;
+    }
+
+    public void setBase64image(String base64image) {
+        this.base64image = base64image;
+    }
 
     public byte[] getImage() {
         return image;

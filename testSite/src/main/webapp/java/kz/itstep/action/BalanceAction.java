@@ -1,9 +1,6 @@
 package kz.itstep.action;
 
-import kz.itstep.dao.CourceDao;
-import kz.itstep.dao.PurchasedCourceDao;
 import kz.itstep.dao.UserDao;
-import kz.itstep.entity.PurchasedCource;
 import kz.itstep.entity.User;
 
 import javax.servlet.ServletException;
@@ -12,34 +9,35 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.Date;
 
-import static kz.itstep.util.AppConstant.LANG;
+import static kz.itstep.util.AppConstant.*;
 
-public class BuyAction implements Action {
+public class BalanceAction implements Action {
     @Override
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("currentUser");
-        String courceIdStr = request.getParameter("id");
-
         String currentLang = getCurrentLang(request);
         request.setAttribute(LANG, currentLang);
+        if(user.getImage() != null)request.setAttribute("hasImage", true);
+        else request.setAttribute("hasImage", false);
 
-        int courceId = Integer.valueOf(courceIdStr);
+        if(request.getMethod().equals("GET")){
+            request.getRequestDispatcher(URL_BALANCE).forward(request, response);
+        } else if(request.getMethod().equals("POST")){
+            String sum = request.getParameter("sum");
+            int intSum = Integer.valueOf(sum);
 
-        CourceDao courceDao = new CourceDao();
-        int price = courceDao.findById(courceId).getPrice();
+            UserDao userDao = new UserDao();
+            userDao.updateBalance(intSum + user.getMoney(), user.getId());
 
-        user.setMoney(user.getMoney() - price);
+            user.setMoney(intSum + user.getMoney());
+            session.setAttribute("currentUser", user);
 
-        PurchasedCourceDao purchasedCourceDao = new PurchasedCourceDao();
-        PurchasedCource purchasedCource = new PurchasedCource(user.getId(), courceId);
-        purchasedCourceDao.insert(purchasedCource);
-
-        UserDao userDao = new UserDao();
-        userDao.update(user);
-
-        response.sendRedirect("/fs/cource?courceId=" + courceId);
+            request.setAttribute(BALANCE_INCREASED, true);
+            response.sendRedirect("/fs/profile");
+        }
     }
     public String getCurrentLang(HttpServletRequest request){
         Cookie[] cookies = request.getCookies();

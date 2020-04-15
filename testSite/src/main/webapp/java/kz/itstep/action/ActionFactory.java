@@ -26,9 +26,13 @@ public class ActionFactory {
         PAGES.put("GET/profile", new ProfileAction());
         PAGES.put("GET/profile/edit", new EditProfileAction());
         PAGES.put("GET/logout", new LogoutAction());
+        PAGES.put("GET/increase-balance", new BalanceAction());
+        PAGES.put("GET/set-lang", new ChangeLanguageAction());
 
+        PAGES.put("POST/increase-balance", new BalanceAction());
         PAGES.put("POST/profile/edit", new EditProfileAction());
         PAGES.put("POST/delete", new DeleteAction());
+        PAGES.put("POST/restore", new RestoreAction());
         PAGES.put("POST/buy", new BuyAction());
         PAGES.put("POST/registration", new RegistrationAction());
         PAGES.put("POST/authorization", new LoginAction());

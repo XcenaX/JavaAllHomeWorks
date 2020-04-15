@@ -30,6 +30,9 @@ public class LoginAction implements Action {
 
         User user = userDao.findByLoginAndPassword(login, password);
 
+        String currentLang = getCurrentLang(request);
+        request.setAttribute(LANG, currentLang);
+
         if(user != null){
             CourceDao courceDao = new CourceDao();
             List<Cource> cources = courceDao.findAll();
@@ -50,5 +53,16 @@ public class LoginAction implements Action {
 
         }
 
+    }
+    public String getCurrentLang(HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+        String currentLang = "";
+        for (int i = 0; i < cookies.length; i++) {
+            String name = cookies[i].getName();
+            if(name.equals("language")){
+                currentLang = cookies[i].getValue();
+            }
+        }
+        return currentLang;
     }
 }

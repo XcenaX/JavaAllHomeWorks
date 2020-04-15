@@ -12,6 +12,19 @@
   margin: auto;
 }
 
+.submit-avatar{
+  background-color: #19d719;
+  color: white;
+  margin-top: 10px;
+}
+
+.profile-image{
+  width: 50%;
+}
+.photo-form{
+  width: 50%;
+}
+
 .back-arrow{
   width: 20px;
   height: 20px;
@@ -438,6 +451,15 @@ iframe {
 @media (max-width: 576px) {
   .wrap-login100 {
     padding: 77px 15px 33px 15px;
+  }
+  .profile-image{
+    width: 100%;
+  }
+  .photo-form{
+    width: 100%;
+  }
+  .submit-avatar{
+    width: 100%;
   }
 }
 
